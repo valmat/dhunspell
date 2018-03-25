@@ -1,9 +1,13 @@
+//
+// Rae c string wrapper
+//
 module dhunspell.slice;
 
 import std.conv         : to;
 import core.stdc.string : strlen;
-
-struct Slice {
+struct Slice
+{
+nothrow:
     static const(char*) str2cstr(string rhs)
     {
         return &rhs.to!(immutable(char)[])[0];

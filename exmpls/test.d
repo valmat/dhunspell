@@ -32,10 +32,8 @@ void main()
         w.writeln();
     }
     writeln("~~~~~~~~~~~~~~~~~~~");
-    foreach(ref w; suggestions.toStrings) {
-        w.writeln();
-    }
-    writeln("~~~~~~~~~~~~~~~~~~~");
+    writeln(suggestions.toStrings);
+
     writeln("~~~~~~~~~~~~~~~~~~~");
     writeln("~~~~~~~~~~~~~~~~~~~");
 
@@ -46,10 +44,9 @@ void main()
     foreach(w; analyze.range) {
         w.writeln();
     }
+    writeln(analyze.toStrings);
 
     writeln("~~~~~~~~~ stem ~~~~~~~~~~");
-    foreach(w; spell.stem("колбаса").toStrings) {
-        w.writeln();
-    }
+    writeln(spell.stem("колбаса").toStrings);
 
 }

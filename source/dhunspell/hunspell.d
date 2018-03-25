@@ -2,6 +2,8 @@ module dhunspell.hunspell;
 
 
 private extern (C) {
+nothrow:
+    
     struct Hunhandle {};
 
 
@@ -80,6 +82,7 @@ alias str2cstr = Slice.str2cstr;
 
 struct HunspellStringList
 {
+nothrow:
 private:
     // Only Spell can create HunspellStringList
     this(const Hunhandle* pHunspell, char** slst, size_t size)
@@ -141,6 +144,7 @@ private:
 // Range for HunspellStringList
 private struct HunspellStringListRange
 {
+nothrow:
     this(const char** slst, const size_t size)
     {
         _begin  = cast(char**) slst;
@@ -163,6 +167,7 @@ private:
 
 struct Spell
 {
+nothrow:
     this(string aff_path, string dic_path)
     {
         _handle = Hunspell_create(aff_path.str2cstr, dic_path.str2cstr);
@@ -274,4 +279,31 @@ struct Spell
 
 private:
     Hunhandle* _handle;
+}
+
+
+// to run tests: dmd -unittest -main  dhunspell/tie.d && ./dhunspell/tie
+// or: cd source 
+// rdmd -unittest -main -L-lstdc++ -L-lhunspell dhunspell/hunspell
+nothrow unittest {
+    auto spell = Spell("/usr/share/hunspell/ru_RU.aff", "/usr/share/hunspell/ru_RU.dic");
+
+    assert( spell.check("колбаса") );
+    assert(!spell.check("калбаса") );
+    assert( spell.check("жир")     );
+    assert(!spell.check("жыр")     );
+
+    assert("UTF-8" == spell.dicEncoding().toString);
+
+    
+    auto suggestions = spell.suggest("калбаса");
+    auto sug_arr = ["колбаса", "карбаса", "кал баса", "колбаска"];
+
+    import std.array : array;
+    import std.algorithm : map;
+    assert(suggestions.range.map!"a.toString".array == sug_arr);
+    assert(suggestions.toStrings == sug_arr);
+
+    assert(spell.analyze("колбаса").toStrings == [" st:колбаса"]);
+    assert(spell.stem("колбаса").toStrings    == ["колбаса"]);
 }
