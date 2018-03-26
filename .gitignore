@@ -1,0 +1,16 @@
+*.o
+*.so
+*.a
+*.bin
+
+*.tar
+*.rar
+*.zip
+*.tar.bz2
+*.tar.gz
+*.tgz
+
+*.deb
+~*
+deps/hunspell
+
