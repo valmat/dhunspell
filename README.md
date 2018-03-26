@@ -16,7 +16,7 @@ sudo apt hunspell-ru hunspell-de hunspell-fr
 
 ## Check word
 
-```Dlang
+```d
 void main()
 {
     auto spell = Spell.makeDefault();
@@ -37,7 +37,7 @@ output:
 
 ## Get dictionary encoding
 
-```Dlang
+```d
 writeln(spell.dicEncoding());
 ```
 output:
@@ -47,7 +47,7 @@ UTF-8
 
 ## Get suggestions
 
-```Dlang
+```d
 auto suggestions = spell.suggest("калбаса");
 for(size_t i = 0; i < suggestions.size; ++i) {
     suggestions[i].writeln();
@@ -61,13 +61,13 @@ output:
 колбаска
 ```
 Or the same:
-```Dlang
+```d
 foreach(ref w; suggestions.range) {
     w.writeln();
 }
 ```
 or
-```Dlang
+```d
 foreach(ref w; suggestions.toStrings) {
     w.writeln();
 }
@@ -77,7 +77,7 @@ Method `Slice.toStrings()` returns strings array `string[]`
 
 # Analyze
 
-```Dlang
+```d
 auto analyze = spell.analyze("колбаса");
 foreach(w; analyze.range) {
     w.writeln();
@@ -89,7 +89,7 @@ st:колбаса
 ```
 # Stemming
 
-```Dlang
+```d
 foreach(w; spell.stem("колбаса").toStrings) {
     w.writeln();
 }
