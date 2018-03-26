@@ -16,6 +16,10 @@ nothrow:
 
     char* Hunspell_get_dic_encoding(const Hunhandle* pHunspell);
 
+    /* load extra dictionaries (only dic files)
+     * output: 0 = additional dictionary slots available, 1 = slots are now full*/
+    int Hunspell_add_dic(Hunhandle* pHunspell, const char* dpath);
+
     //  suggest(suggestions, word) - search suggestions
     //  input: pointer to an array of strings pointer and the (bad) word
     //    array of strings pointer (here *slst) may not be initialized
@@ -196,6 +200,15 @@ nothrow:
         return Slice(Hunspell_get_dic_encoding(_handle));
     }
 
+
+    // load extra dictionaries (only dic files)
+    // output: false  additional dictionary slots available, true = slots are now full
+    bool addDic(string dic_path)
+    {
+        return 1 == Hunspell_add_dic(_handle, dic_path.str2cstr);
+    }
+
+
     //  suggest(suggestions, word) - search suggestions
     //  input: pointer to an array of strings pointer and the (bad) word
     //    array of strings pointer (here *slst) may not be initialized
@@ -306,4 +319,18 @@ nothrow unittest {
 
     assert(spell.analyze("колбаса").toStrings == [" st:колбаса"]);
     assert(spell.stem("колбаса").toStrings    == ["колбаса"]);
+}
+
+nothrow unittest {
+    auto spell = Spell("/usr/share/hunspell/ru_RU.aff", "/usr/share/hunspell/ru_RU.dic");
+    spell.addDic("/usr/share/hunspell/en_US.dic");
+
+    assert( spell.check("rabbit") );
+    assert(!spell.check("rebbit") );
+    assert( spell.check("you")    );
+    assert(!spell.check("yuo")    );
+
+
+    assert(spell.suggest("raabbit").toStrings == ["rabbit", "rabbi", "Rabbi"]);
+    assert(spell.suggest("yuo").toStrings     == ["you", "yup", "yo"]);
 }

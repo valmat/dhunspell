@@ -4,12 +4,22 @@ Wrapper for [hunspell](https://hunspell.github.io/) speller
 
 # Dependences
 
+Hunspell version v.1.6.2 or later
+
 ```
 sudo apt install hunspell hunspell-dev
 ```
 Optionality:
 ```
 sudo apt hunspell-ru hunspell-de hunspell-fr
+```
+Or https://launchpad.net/ubuntu/+source/hunspell
+```
+wget https://launchpad.net/ubuntu/+archive/primary/+files/libhunspell-1.6-0_1.6.2-1_amd64.deb
+wget https://launchpad.net/ubuntu/+archive/primary/+files/libhunspell-dev_1.6.2-1_amd64.deb
+
+sudo dpkg -i libhunspell-1.6-0_1.6.2-1_amd64.deb
+sudo dpkg -i libhunspell-dev_1.6.2-1_amd64.deb
 ```
 
 # Usage

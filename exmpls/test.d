@@ -49,4 +49,18 @@ void main()
     writeln("~~~~~~~~~ stem ~~~~~~~~~~");
     writeln(spell.stem("колбаса").toStrings);
 
+
+    writeln("~~~~~~~~~~~~~~~~~~~");
+    spell.addDic("/usr/share/hunspell/en_US.dic");
+    
+    writeln("rabbit : ", spell.check("rabbit"));
+    writeln("rebbit : ", spell.check("rebbit"));
+    writeln("you    : ", spell.check("you"));
+    writeln("yuo    : ", spell.check("yuo"));
+
+    writeln("~~~~~~~~~raabbit~~~~~~~~~~");
+    writeln(spell.suggest("raabbit").toStrings);
+    writeln("~~~~~~~~~~yuo~~~~~~~~~");
+    writeln(spell.suggest("yuo").toStrings);
+
 }
