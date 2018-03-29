@@ -10,7 +10,12 @@ struct Slice
 nothrow:
     static const(char*) str2cstr(string rhs)
     {
-        return &rhs.to!(immutable(char)[])[0];
+        // make null terminated const char
+        char[] str;
+        str.length  = rhs.length+1;
+        str[0..$-1] = rhs[0..$];
+        str[$-1]    ='\0';
+        return &str.to!(const(char)[])[0];
     }
 
     this(string rhs)
